@@ -1,0 +1,34 @@
+modules:
+  trigger:
+    - key: jira-add-comment
+      function: store-comment-resolver
+      events:
+        - avi:jira:commented:issue
+  jiraServiceManagement:portalRequestDetail:
+    - key: undo-jsm-comment
+      resource: main
+      resolver:
+        function: resolver
+      viewportSize: medium
+      title: Undo Comment JSM
+  function:
+    - key: resolver
+      handler: index.handler
+    - key: store-comment-resolver
+      handler: index.storeComment
+resources:
+  - key: main
+    path: static/hello-world/build
+    tunnel:
+      port: 3000
+app:
+  id: ari:cloud:ecosystem::app/fe6b2fa4-79ec-4461-9ac8-5f81e8c42009
+permissions:
+  scopes:
+    - write:jira-work
+    - read:jira-work
+    - storage:app
+    - read:jira-user
+  content:
+      styles:
+        - 'unsafe-inline'
